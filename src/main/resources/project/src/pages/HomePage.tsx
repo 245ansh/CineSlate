@@ -1,20 +1,34 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { SearchBar } from '../components/SearchBar';
 import { MovieCard } from '../components/MovieCard';
 import { ReviewCard } from '../components/ReviewCard';
+import { HomeMovie } from '../types';
 
 const SAMPLE_MOVIES = [
   {
     id: '1',
-    title: 'Inception',
-    posterUrl: 'https://images.unsplash.com/photo-1440404653325-ab127d49abc1',
-    year: 2010,
-    rating: 4.8,
-    overview: 'A thief who steals corporate secrets...',
+    name: 'Inception',
+    image: 'https://images.unsplash.com/photo-1440404653325-ab127d49abc1',
   },
   // Add more sample movies
 ];
+const [homemovies, setdata] = useState<String >();
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/homemovies'); 
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        setdata(await response.json()); 
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 const SAMPLE_REVIEWS = [
   {
     id: '1',
@@ -56,8 +70,8 @@ export const HomePage = () => {
         <section className="mb-12">
           <h2 className="mb-6 text-2xl font-bold text-white">Trending Movies</h2>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {SAMPLE_MOVIES.map((movie) => (
-              <MovieCard key={movie.id} movie={movie} />
+            {homemovies.map((id: string,name: string,image: string) => (
+              <MovieCard id={id} name={name} image={image}/>
             ))}
           </div>
         </section>

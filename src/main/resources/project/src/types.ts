@@ -6,7 +6,11 @@ export interface Movie {
   rating: number;
   overview: string;
 }
-
+export interface HomeMovie {
+  id: string;
+  image: string;
+  name:string;
+}
 export interface Review {
   id: string;
   movieId: string;
