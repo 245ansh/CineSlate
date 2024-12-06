@@ -1,14 +1,30 @@
-import React, { useState } from 'react';
+import   { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Star, Plus, PenSquare } from 'lucide-react';
+import axios from "axios";
 
 export const MovieDetails = () => {
   const { id } = useParams();
   const [rating, setRating] = useState(0);
   const [showListDropdown, setShowListDropdown] = useState(false);
 
+  // Initial state with default movie structure
+  const [movie, setMovie] = useState({
+    id: '',
+    title: '',
+    posterUrl: '',
+    year: null,
+    rating: null,
+    overview: '',
+    director: '',
+    cast: [],
+  });
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+
   // Replace with actual movie data fetching
-  const movie = {
+  const movie1 = {
     id: '1',
     title: 'Inception',
     posterUrl: 'https://images.unsplash.com/photo-1440404653325-ab127d49abc1',
@@ -19,6 +35,36 @@ export const MovieDetails = () => {
     director: 'Christopher Nolan',
     cast: ['Leonardo DiCaprio', 'Joseph Gordon-Levitt', 'Ellen Page'],
   };
+
+
+
+  useEffect(() => {
+    const fetchMovie = async () => {
+      try {
+        // Fetch movie details using axios
+        const response = await axios.get(`http://localhost:8080/movie/${id}`);
+        const data = response.data;
+        // Update the movie state with the API response
+        setMovie({
+          id: data.id,
+          title: data.title,
+          posterUrl: data.posterUrl,
+          year: data.year,
+          rating: data.rating,
+          overview: data.overview,
+          director: data.director,
+          cast: data.cast,
+        });
+
+        setLoading(false); // Mark loading as complete
+      } catch (err) {
+        setError(err.message); // Capture and set error
+        setLoading(false); // Mark loading as complete
+      }
+    };
+
+    fetchMovie();
+  }, [id]);
 
   return (
     <div className="min-h-screen bg-gray-900 pt-20">
