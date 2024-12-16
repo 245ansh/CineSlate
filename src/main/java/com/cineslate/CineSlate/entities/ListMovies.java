@@ -1,6 +1,7 @@
 package com.cineslate.CineSlate.entities;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -18,7 +19,7 @@ public class ListMovies {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long listId;
     private Long movieId;
-    @ManyToOne
-    @JoinColumn(name="lists_id", referencedColumnName = "listsId",nullable =false)
-    private Lists listsId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "lists_id", nullable = false)
+    private Lists list;
 }

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"><head>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie</title>
+    <!-- Bootstrap CSS -->
+    <link rel="icon" href="favicon.png" type="image/png">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #121212;
+            color: white;
+        }
+
+        /* Background image for modal */
+        .modal-content {
+            position: relative;
+            background: #202020; /* Semi-transparent background for the modal content */
+            border-radius: 15px;
+            color: white;
+        }
+
+        .modal-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('herosection.png');
+            background-size: cover;
+            opacity: 0.2; /* Low opacity for background image */
+            z-index: 0;
+            border-radius: 15px; /* Aligns the background with the content */
+        }
+
+        .modal-header,
+        .modal-body,
+        .modal-footer {
+            position: relative;
+            z-index: 1; /* Ensures content appears above the background */
+        }
+
+        .modal-body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%; /* Full height content */
+        }
+
+        .movie-poster {
+            flex: 1;
+            max-width: 25%;
+            padding-right: 20px;
+        }
+
+        .movie-poster img {
+            border-radius: 10px;
+            border: 3px solid #000;
+            max-width: 100%;
+        }
+
+        .movie-details {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .movie-title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .btn-custom {
+            background-color: #6a11cb;
+            color: white;
+            border: none;
+        }
+
+        .btn-custom:hover {
+            background-color: #2575fc;
+            color: white;
+        }
+
+        .rating-stars {
+            font-size: 1.2rem;
+            color: gold;
+        }
+
+        .cast-badges span {
+            background-color: #444;
+            color: white;
+            padding: 5px 10px;
+            margin-right: 5px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+
+        .overview {
+            margin-top: 15px;
+        }
+        .navbar {
+    min-height: 80px; /* Adjust the height value as needed */
+    padding: 15px 10px; /* Optional: Adjust padding for better appearance */
+  }
+  .navbar-brand {
+    font-size: 2rem; /* Optional: Adjust font size for better alignment */
+  }
+  .btn {
+    margin-top: auto; /* Optional: Align buttons vertically */
+    margin-bottom: auto;
+  }
+
+    </style>
+</head>
+
+<body>
+    <!-- Modal -->
+     
+    <div class="modal fade show d-block" id="avatarModal" tabindex="-1" aria-labelledby="avatarModalLabel" aria-hidden="true"
+        style="background: rgba(0, 0, 0, 0.5);">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <nav class="navbar navbar-expand-lg navbar-dark">
+                    <div class="container-fluid">
+                      <div>
+                        <button class="btn btn-dark dropdown-toggle" type="button" style="margin-left: 25px;" id="menuDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                          Menu
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="menuDropdown" style="margin-left: 40px;">
+                          <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                          <li><a class="dropdown-item" href="/popular">Latest Movies</a></li>
+                          <li><a class="dropdown-item" href="/myreview">Your Reviews</a></li>
+                          <li><a class="dropdown-item" href="/mylist">Your Lists</a></li>
+                        </ul>
+                      </div>
+                      <a class="navbar-brand mx-auto" href="/logindex">
+                        CineSlate</a>
+                      <div class="d-flex" >
+                        <a th:href="@{/profile}"><button class="btn btn-outline-light me-2">Profile</button></a> 
+                        <a th:href="@{/logout}"><button class="btn btn-outline-light">Logout</button></a> 
+                      </div>
+                    </div>
+                  </nav>
+                <div class="modal-body">
+                    <!-- Movie Poster -->
+                    <div class="movie-poster">
+                        <img th:src="${movie.image}" alt="Avatar: The Way of Water">
+                    </div>
+                    <!-- Movie Details -->
+                    <div class="movie-details">
+                        <div class="movie-title" th:text="${movie.name}">Title</div>
+                        <h4 th:text="${movie.year}">2022</h4>
+                        <!-- <div class="rating-stars">
+                            ⭐⭐⭐⭐☆ (4.5/5)
+                        </div>
+                        <div class="overview">
+                            <strong>Overview:</strong>
+                            <p>A visual masterpiece that explores the underwater wonders of Pandora. A must-watch!</p>
+                        </div>
+                        <div class="cast-badges">
+                            <strong>Cast:</strong>
+                            <span>Sam Worthington</span>
+                            <span>Zoe Saldana</span>
+                            <span>Sigourney Weaver</span>
+                        </div> -->
+                    </div>
+                    <div class="modal-footer border-0">
+                        <a th:href="@{'/review/add/' + ${movie.id}}"><button type="button" class="btn btn-light" >Write Review</button></a>
+                        <button type="button" class="btn btn-dark" onclick="addToList()">Add to My List</button>
+                    </div>
+                </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Close Modal Functionality
+        function closeModal() {
+            window.location.href = '/'; // Redirect to index.html
+        }
+    </script>
+</body>
+
+</html>

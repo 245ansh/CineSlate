@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile Page</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #202020, #000000);
+      color: #fff;
+      font-family: Arial, sans-serif;
+    }
+    .profile-container {
+      background: #fff;
+      color: #333;
+      border-radius: 10px;
+      padding: 30px;
+      position: relative;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+    .profile-picture {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 5px solid #202020;
+    }
+    .btn-custom {
+      background: #2575fc;
+      color: #fff;
+      border: none;
+    }
+    .btn-custom:hover {
+      background: #202020;
+    }
+    .close-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: transparent;
+      border: none;
+      font-size: 1.5rem;
+      color: #333;
+      cursor: pointer;
+    }
+    .close-button:hover {
+      color: #ff0000;
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="profile-container">
+          <button class="close-button" onclick="closePage()">&times;</button>
+          <div class="text-center mb-4">
+            <h2 class="mt-3">Ansh Tamrakar</h2>
+          </div>
+
+            <div class="mb-3">
+              <label for="first-name" class="form-label">Name</label>
+              <input type="text" class="form-control" id="first-name" placeholder="Enter your first name" value="Ansh">
+            </div>
+
+            <div class="mb-3">
+              <label for="last-name" class="form-label">Age</label>
+              <input type="number" class="form-control" id="last-name" placeholder="Enter your Age" value="Tamrakar">
+            </div>
+
+            <div class="mb-3">
+              <label for="gender" class="form-label">Gender</label>
+              <select class="form-select" id="gender">
+                <option value="MALE" selected>Male</option>
+                <option value="FEMALE">Female</option>
+                <option value="OTHER">Other</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="email" class="form-label">Email Address</label>
+              <input type="email" class="form-control" id="email" placeholder="Enter your email" value="anshtamrakar@example.com">
+            </div>
+
+            <div class="mb-3">
+              <label for="phone" class="form-label">Password</label>
+              <input type="text" class="form-control" id="phone" placeholder="Enter New Password" value="">
+            </div>
+
+            <div class="d-flex justify-content-end">
+              <button  class="btn btn-secondary me-2" onclick="closePage()">Cancel</button>
+              <button  class="btn btn-custom" onclick="closePage()">Save Changes</button>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function closePage() {
+      window.location.href = '/logindex';
+    }
+  </script>
+</body>
+</html>

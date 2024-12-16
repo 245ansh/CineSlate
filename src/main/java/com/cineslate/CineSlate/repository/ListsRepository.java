@@ -7,5 +7,4 @@ import com.cineslate.CineSlate.entities.Lists;
 
 @Repository
 public interface ListsRepository extends JpaRepository<Lists, Long> {
-    
 }

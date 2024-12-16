@@ -1,12 +1,12 @@
 package com.cineslate.CineSlate.entities;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,17 +31,14 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Gender gender; 
   
-    private LocalDate DOB;
-    private String photo;
+    private int age;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews;
 
     
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Lists> lists;
-
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-
+    
+    
 }

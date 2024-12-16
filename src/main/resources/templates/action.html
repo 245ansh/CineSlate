@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Watchlist</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #282c34;
+      color: #f5f5f5;
+    }
+    .movie-card {
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      background-color: #333;
+      cursor: pointer;
+      transition: transform 0.3s, opacity 0.5s ease-out;
+    }
+    .movie-card:hover {
+      transform: scale(1.05);
+    }
+    .movie-card-body {
+      padding: 15px;
+      color: #eee;
+    }
+    .movie-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #61dafb;
+    }
+    .movie-genre,
+    .movie-rating {
+      color: #bbb;
+      font-size: 0.9em;
+    }
+    .review-content {
+      margin-top: 10px;
+      color: #aaa;
+    }
+    .review-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+    }
+    .delete-button {
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.9em;
+      transition: background-color 0.2s;
+      background-color: #dc3545;
+      color: white;
+    }
+    .delete-button:hover {
+      background-color: #c82333;
+    }
+    .movie-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* Ensures the image covers the entire area */
+      display: block;    /* Removes extra spaces caused by inline-block default behavior of images */
+    }
+  </style>
+</head>
+<body>
+
+<div class="container mt-5">
+  <h1 class="text-center mb-4">Action Lists</h1>
+
+  <div class="row" id="movie-list">
+    <div class="col-md-4 movie-item" id="movie-card-1">
+      <div class="movie-card">
+        <img src="300/INCEPTION-300x300.jpg" alt="Movie Poster">
+        <div class="movie-card-body" >
+          <div class="movie-title">Inception</div>
+          <div class="movie-genre">Genre: Sci-Fi/Thriller</div>
+          <div class="movie-rating">Rating: 5/5</div>
+          <div class="review-content">
+            <p>"Inception" is a visual masterpiece with an intricate and thought-provoking plot.</p>
+          </div>
+          <div class="review-buttons">
+            <button class="delete-button" onclick="event.stopPropagation(); removeFromWatchlist(1)">Remove from Watchlist</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 movie-item" id="movie-card-2">
+      <div class="movie-card" onclick="openMoviePage('godfather.html')">
+        <img src="300/godfather-300x300.jpg" alt="Movie Poster">
+        <div class="movie-card-body">
+          <div class="movie-title">The Godfather</div>
+          <div class="movie-genre">Genre: Crime/Drama</div>
+          <div class="movie-rating">Rating: 5/5</div>
+          <div class="review-content">
+            <p>"The Godfather" is a cinematic masterpiece exploring the dark underbelly of organized crime.</p>
+          </div>
+          <div class="review-buttons">
+            <button class="delete-button" onclick="event.stopPropagation(); removeFromWatchlist(2)">Remove from Watchlist</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 movie-item" id="movie-card-3">
+      <div class="movie-card" onclick="openMoviePage('darkknight.html')">
+        <img src="300/The Dark Knight-300x300.jpg" alt="Movie Poster">
+        <div class="movie-card-body">
+          <div class="movie-title">The Dark Knight</div>
+          <div class="movie-genre">Genre: Action/Crime</div>
+          <div class="movie-rating">Rating: 4.5/5</div>
+          <div class="review-content">
+            <p>"The Dark Knight" redefined the superhero genre with its complex storytelling and unforgettable performances.</p>
+          </div>
+          <div class="review-buttons">
+            <button class="delete-button" onclick="event.stopPropagation(); removeFromWatchlist(3)">Remove from Watchlist</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+  function removeFromWatchlist(movieId) {
+    if (confirm('Are you sure you want to remove this movie from your watchlist?')) {
+      const card = document.getElementById('movie-card-' + movieId);
+      card.style.opacity = '0';
+      setTimeout(() => {
+        card.remove();
+        // Ensure remaining cards fill space
+        const movieList = document.getElementById('movie-list');
+        const updatedCards = Array.from(movieList.children);
+        updatedCards.forEach(card => {
+          movieList.appendChild(card); // Re-append cards to refresh layout
+        });
+      }, 500);
+    }
+  }
+
+
+
+</script>
+</body>
+</html>

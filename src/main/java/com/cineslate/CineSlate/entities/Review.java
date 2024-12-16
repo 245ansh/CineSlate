@@ -1,8 +1,7 @@
 package com.cineslate.CineSlate.entities;
 
-import java.time.LocalDateTime;
-
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,17 +23,8 @@ public class Review {
     private String body;
     private Integer rating;
 
-    @ManyToOne
-    @JoinColumn(name="userId", referencedColumnName = "userId",nullable =true)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-    @Override
-    public String toString() {
-        return "Review [reviewId=" + reviewId + ", movieId=" + movieId + ", description=" + description + ", body="
-                + body + ", rating=" + rating + ", userid=" + user + ", createdAt=" + createdAt + ", updatedAt="
-                + updatedAt + "]";
-    }
     
 }

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Watchlist</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #282c34;
+      color: black;
+    }
+    .movie-card {
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      background-color: #333;
+      cursor: pointer;
+      transition: transform 0.3s, opacity 0.5s ease-out;
+    }
+    .movie-card:hover {
+      transform: scale(1.05);
+    }
+    .movie-card-body {
+      padding: 15px;
+      color: #eee;
+    }
+    .movie-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #61dafb;
+    }
+    .movie-genre {
+      color: #bbb;
+      font-size: 0.9em;
+    }
+    .delete-button {
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: #dc3545;
+      color: white;
+      margin-top: 10px;
+    }
+    .delete-button:hover {
+      background-color: #c82333;
+    }
+    .add-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-size: 1.2em;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    .add-button:hover {
+      background-color: #218838;
+    }
+    .close-page {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+      z-index: 1000;
+      font-size: 1em;
+      transition: background-color 0.2s;
+    }
+    .close-page:hover {
+      background-color: #c82333;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Close Page Button -->
+<button class="close-page" onclick="closePage()">×</button>
+
+<button class="add-button" data-toggle="modal" data-target="#addCardModal">+ Add List</button>
+
+<div class="container mt-5">
+  <h1 class="text-center mb-4">My Watchlist</h1>
+
+  <div class="row" id="movie-list">
+    <!-- Existing cards go here -->
+    <div class="col-md-4 movie-item" id="movie-card-1">
+      <div class="movie-card" onclick="redirectToPage('/action')">
+        <div class="movie-card-body">
+          <div class="movie-title">Action Movies</div>
+          <div class="movie-genre">Genre: Action</div>
+          <button class="delete-button" onclick="event.stopPropagation(); removeFromWatchlist(1)">Remove List</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 movie-item" id="movie-card-2">
+      <div class="movie-card" onclick="redirectToPage('/drama')">
+        <div class="movie-card-body">
+          <div class="movie-title">Ansh's List</div>
+          <div class="movie-genre">Genre: Crime/Drama</div>
+          <button class="delete-button" onclick="event.stopPropagation(); removeFromWatchlist(2)">Remove List</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for Adding a New Card -->
+<div class="modal fade" id="addCardModal" tabindex="-1" role="dialog" aria-labelledby="addCardModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addCardModalLabel">Add New List</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="addCardForm">
+          <div class="form-group">
+            <label for="listName">List Name</label>
+            <input type="text" class="form-control" id="listName" placeholder="Enter list name" required>
+          </div>
+          <div class="form-group">
+            <label for="listGenre">Genre</label>
+            <input type="text" class="form-control" id="listGenre" placeholder="Enter genre" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Add List</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+  let movieCount = Date.now(); // Initialize with a unique value
+
+  document.getElementById('addCardForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const listName = document.getElementById('listName').value;
+    const listGenre = document.getElementById('listGenre').value;
+
+    addNewCard(listName, listGenre);
+
+    // Reset form and close modal
+    document.getElementById('addCardForm').reset();
+    $('#addCardModal').modal('hide');
+  });
+
+  function addNewCard(listName, listGenre) {
+    const uniqueId = movieCount++; // Ensure unique ID for each card
+    const movieList = document.getElementById('movie-list');
+    const newCard = document.createElement('div');
+    const newPageUrl = `${listName.toLowerCase().replace(/\s+/g, '-')}.html`; // Generate URL dynamically
+    newCard.className = 'col-md-4 movie-item';
+    newCard.id = `movie-card-${uniqueId}`;
+    newCard.innerHTML = `
+      <div class="movie-card" onclick="redirectToPage('${newPageUrl}')">
+        <div class="movie-card-body">
+          <div class="movie-title">${listName}</div>
+          <div class="movie-genre">Genre: ${listGenre}</div>
+          <button class="delete-button" onclick="event.stopPropagation(); removeFromWatchlist(${uniqueId})">Remove List</button>
+        </div>
+      </div>
+    `;
+    movieList.appendChild(newCard);
+  }
+
+  function removeFromWatchlist(uniqueId) {
+    const card = document.getElementById(`movie-card-${uniqueId}`);
+    if (card) {
+      card.remove();
+    }
+  }
+
+  function redirectToPage(url) {
+    window.location.href = url;
+  }
+
+  function closePage() {
+    window.location.href = "/logindex"; // Redirect to index.html
+  }
+</script>
+</body>
+</html>

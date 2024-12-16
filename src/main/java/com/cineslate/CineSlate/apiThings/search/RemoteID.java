@@ -1,15 +1,25 @@
 package com.cineslate.CineSlate.apiThings.search;
-public class RemoteID {
+
+public class RemoteId {
     private String id;
-    private long type;
+    private Integer type;
     private String sourceName;
-
-    public String getID() { return id; }
-    public void setID(String value) { this.id = value; }
-
-    public long getType() { return type; }
-    public void setType(long value) { this.type = value; }
-
-    public String getSourceName() { return sourceName; }
-    public void setSourceName(String value) { this.sourceName = value; }
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
+    }
+    public Integer getType() {
+        return type;
+    }
+    public void setType(Integer type) {
+        this.type = type;
+    }
+    public String getSourceName() {
+        return sourceName;
+    }
+    public void setSourceName(String sourceName) {
+        this.sourceName = sourceName;
+    }
 }

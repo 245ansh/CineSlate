@@ -1,16 +1,27 @@
 package com.cineslate.CineSlate.apiThings.search;
+import java.util.ArrayList;
+import java.util.List;
 
 public class searchResponse {
-    private Datum[] data;
+    private List<Datum> data = new ArrayList<Datum>();
     private String status;
     private Links links;
-
-    public Datum[] getData() { return data; }
-    public void setData(Datum[] value) { this.data = value; }
-
-    public String getStatus() { return status; }
-    public void setStatus(String value) { this.status = value; }
-
-    public Links getLinks() { return links; }
-    public void setLinks(Links value) { this.links = value; }
+    public List<Datum> getData() {
+        return data;
+    }
+    public void setData(List<Datum> data) {
+        this.data = data;
+    }
+    public String getStatus() {
+        return status;
+    }
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    public Links getLinks() {
+        return links;
+    }
+    public void setLinks(Links links) {
+        this.links = links;
+    }
 }

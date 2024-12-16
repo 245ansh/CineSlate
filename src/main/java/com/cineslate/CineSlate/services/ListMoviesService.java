@@ -1,7 +1,6 @@
 package com.cineslate.CineSlate.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,17 +16,23 @@ public class ListMoviesService{
    @Autowired
    private ListMoviesRepository listMoviesRepository;
 
-   public Optional<ListMovies> getById(Long id){
-        return listMoviesRepository.findById(id);
+   public ListMovies getById(Long id){
+        ListMovies movie= listMoviesRepository.findById(id).get();
+        movie.setList(null);
+        return movie;
     }
 
     public List<ListMovies> findAll(){
-        return listMoviesRepository.findAll();
+        List<ListMovies> allmovies= listMoviesRepository.findAll();
+        for(ListMovies moc:allmovies) moc.setList(null);
+        return allmovies;
     }
 
     
     public Page<ListMovies> findAll(int offset, int pageSize, String field){
-        return listMoviesRepository.findAll(PageRequest.of(offset, pageSize).withSort(Direction.ASC, field));
+        Page<ListMovies> pagemovies= listMoviesRepository.findAll(PageRequest.of(offset, pageSize).withSort(Direction.ASC, field));
+        for(ListMovies moc:pagemovies) moc.setList(null);
+        return pagemovies;
     }
     
     public void delete(ListMovies listMovies){

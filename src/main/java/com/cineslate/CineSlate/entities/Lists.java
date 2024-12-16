@@ -1,9 +1,10 @@
 package com.cineslate.CineSlate.entities;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -23,14 +24,12 @@ public class Lists {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long listsId;
     private String listName;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 
-    @ManyToOne
-    @JoinColumn(name="userId", referencedColumnName = "userId",nullable =false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "listsId")
+    @OneToMany(mappedBy = "list",fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ListMovies> listmovies;
 
 }

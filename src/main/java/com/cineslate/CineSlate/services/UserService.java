@@ -18,9 +18,18 @@ public class UserService {
     public Optional<User> findOneByEmail(String email) {
         return userRepo.findOneByEmailIgnoreCase(email);
     }
-
-    public Optional<User> findById(long id) {
-        return userRepo.findById(id);
+    public User findByUsername(String name) {
+        return userRepo.findByUsername(name);
+    }
+    public User findById(long id) {
+        Optional<User> optional= userRepo.findById(id);
+        if(optional.isPresent()){
+            User user=optional.get();
+            user.setReviews(null);
+            user.setLists(null);
+            return user;
+        }
+        else return null;
     }
 
     public void removeUser(Long id) {

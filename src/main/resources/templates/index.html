@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CineSlate - Movie Review Website</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="icon" href="favicon.png" type="image/png">
+
+
+  <!--css link-->
+  <link rel="stylesheet" href="styles.css">
+
+  <!--For the icons-->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="script.js">
+
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+      <div>
+        <button class="btn btn-dark dropdown-toggle" type="button" style="margin-left: 25px;" id="menuDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          Menu
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="menuDropdown" style="margin-left: 40px;">
+          <li><a class="dropdown-item" href="/">Home</a></li>
+          <li><a class="dropdown-item" href="/latest">Latest Movies</a></li>
+        </ul>
+      </div>
+      <a class="navbar-brand mx-auto" href="/">
+        <img th:src="1.PNG" alt="CineSlate Logo" style="height: 60px; width: auto; margin-right: 1px; " class="me-2">CineSlate</a>
+      <div class="d-flex" sec:authorize="!isAuthenticated()" >
+        <a th:href="@{/login}"><button class="btn btn-outline-light me-2">Log In</button></a> 
+        <a th:href="@{/signin}"><button class="btn btn-outline-light">Sign Up</button></a> 
+      </div>
+      <!-- <div class="d-flex" sec:authorize="isAuthenticated()" >
+        <a th:href="@{/profile}"><button class="btn btn-outline-light me-2">Profile</button></a> 
+        <a th:href="@{/logout}"><button class="btn btn-outline-light">Logout</button></a> 
+      </div> -->
+    </div>
+  </nav>
+  <div style="background-color: #202020;"></div>
+  <div class="hero-section1" style="font-weight: bold;">
+    <div class="hero-content1">
+      <h1 class="display-4">Welcome to CineSlate</h1>
+      <p class="lead">Join our community of movie enthusiasts. Rate, review, and create
+        your personal movie collections.</p>
+    </div>
+  </div>
+  <div class="container py-3">
+    <form class="d-flex" action="#" th:action="@{/search}" method="post">
+      <input class="form-control me-2" id="prom" name="prom" th:value="*{prom}" type="text" placeholder="Search movies" aria-label="Search" required>
+      <button class="btn btn-outline-light" type="submit">Search</button>
+    </form>
+  </div>
+
+  <!--hero section-->
+
+  <!--name above the search bar -->
+
+    
+  
+
+  
+
+  <!-- Search Bar -->
+ 
+
+<!-- Trending Movies Section -->
+<div class="container py-4">
+  <h2 class="text-center mb-4 text-white">Latest Movies</h2>
+  <div id="trendingMoviesCarousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+          <!-- First Carousel Item -->
+          <div class="carousel-item active">
+              <div class="d-flex justify-content-center gap-3">
+                  <!-- Movies 1-4 -->
+                   <div class="top81" th:each="movie:${top81}">
+                  <div class="movie-card">
+                    <a th:href="@{/login}">
+                      <div class="movie-overlay">
+                          <p class="card-title" th:text="${movie.name}">Title</p>
+                      </div>
+                      <img th:src="${movie.image}" alt="Avatar">
+                      <div class="rating">⭐ 4.8</div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+          </div>
+          <!-- Second Carousel Item -->
+          <div class="carousel-item active">
+            <div class="d-flex justify-content-center gap-3">
+                 <div class="top82" th:each="movie:${top82}">
+                <div class="movie-card">
+                  <a th:href="@{/login}">
+                    <div class="movie-overlay">
+                        <p class="card-title" th:text="${movie.name}">Title</p>
+                    </div>
+                    <img th:src="${movie.image}" alt="Avatar">
+                    <div class="rating">⭐ 4.8</div>
+                  </a>
+                </div>
+              </div>
+            </div>
+        </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#trendingMoviesCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#trendingMoviesCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+      </button>
+  </div>
+</div>
+
+ <!-- Popular Movies Section -->
+ <h2 class="text-left mb-4 text-white" style="margin-top: 25px; margin-left: 7%;">Popular Reviews</h2>
+ <div class="card">
+  <div class="user-details">
+    <h4 class="user-name">IamGroot</h4>
+    <p class="review-date">2024-12-11</p>
+  </div>
+  <div class="movie-info">
+    <img src="https://artworks.thetvdb.com/banners/v4/movie/354058/posters/6619950498db8.jpg" alt="Movie Title" class="movie-poster">
+    <div class="movie-details">
+      <h3 class="movie-title">Lucky Baskhar</h3>
+      
+      <div class="rating">
+        <span class="star filled"></span>
+        <span class="star filled"></span>
+        <span class="star filled"></span>
+        <span class="star filled"></span>
+        <span class="star"></span>
+      </div>
+    </div>
+  </div>
+  <p class="review-content">I'm a fan of DQ and his performances. And this time again he acted so natural and effortless. His screen presence is amazing at each and every scene, he just nails it. That was one of the pros of this well executed movie in recent.
+    Before this watch, I just completed Breaking Bad which had a great time discussing money for family. So like in the second half of this, it felt relatable at times which also provided watchers like me a great conclusion to the topic.
+    Coming to the status of movie, it had a well written story with immense suspense and twists throughout the whole. Cast
+    was okay according to the roles.
+    Cons would include the slowish climax. I think it happened mildly and lacked watch attraction which could be due to the wrong screenplay and direction and also the whole movie lacked a good background score. Also the Hindi dub was not well, dulquer should have done the dub himself.
+    Songs were nice and sweet.
+    At last, it was a great well paced suspense drama with a chilling spice of dulquer with a good story.</p>
+</div>
+<div class="card">
+  <div class="user-details">
+    <h4 class="user-name">Ansh</h4>
+    <p class="review-date">2024-12-11</p>
+  </div>
+  <div class="movie-info">
+    <img src="https://artworks.thetvdb.com/banners/v4/movie/49196/posters/6626684077855.jpg" alt="Movie Title" class="movie-poster">
+    <div class="movie-details">
+      <h3 class="movie-title">Deadpool & Wolverine</h3>
+      
+      <div class="rating">
+        <span class="star filled"></span>
+        <span class="star filled"></span>
+        <span class="star filled"></span>
+        <span class="star half"></span>
+        <span class="star"></span>
+      </div>
+    </div>
+  </div>
+  <p class="review-content">Before this watch,
+    I red some reviews of it calling it a fan service. Which set my expectations over it of a rating about 3.75 or something.
+    It absolutely touched my expectations but can't go above it.
+    Yes, it was worth watching it in theatre with friends, and yeah it also has that Deadpool speciality in it of dark jokes and red violence.
+    But also it disappointed me a bit, I thought it would restore the seriousness of the Marvel. The story was kind of straightforward with very few turns in it.
+    But it also contains some huge events that marvel fans like me wajt for.
+    Yeah the duo of Deadpool and Wolverine is majestic, their humour, their fights, their emotions, all are to a perfection of chemistry between them.
+    Special mention to the title card. This was one of the best title card that marvel had in all its movies. The VFX shots specifically in those scene were so elegant with much of blood and beautifully executed stunts.
+    The casting was good, VFX works were smoothly handled, humour was at max and had many dark jokes, many cuss words, donno some were beeped, so much of fuckk... and all of them landed exceptionally on the audience's laugh.
+    Other surprise of movie was it's cameos.
+    Chris evans was a great surprise. Before, I just saw and heard about the electra and gambit, it was nice watching them in this.
+    The shocking appearance of Blade was my best cameo I waited. I'm so eagerly waiting for the Marvel blade standalone. Also Henry Cavill as Wolverine was so littt.
+    The multiversial Deadpool varients were good, not so fascinating, rather than the dogpool. The Romance of dogpool and Deadpool was way more than some other romantic films.
+    Performance of everyone was to the point, all played their characters very well.
+    Conclusively, that was a great funny time spent in theatre, and yes it was really a bit of fan service bringing Deadpool and Wolverine together but in this case it was satisfactory. Yes, it's a must watch for marvel fans like me.
+    Signing off.😎</p>
+</div>
+<div class="card">
+  <div class="user-details">
+    <h4 class="user-name">SomeBody</h4>
+    <p class="review-date">2024-12-11</p>
+  </div>
+  <div class="movie-info">
+    <img src="https://artworks.thetvdb.com/banners/v4/movie/357383/posters/6664595fd609e.jpg" alt="Movie Title" class="movie-poster">
+    <div class="movie-details">
+      <h3 class="movie-title">Maharaja</h3>
+      
+      <div class="rating">
+        <span class="star filled"></span>
+        <span class="star filled"></span>
+        <span class="star filled"></span>
+        <span class="star filled"></span>
+        <span class="star filled"></span>
+      </div>
+    </div>
+  </div>
+  <p class="review-content">I was late to watch this movie, after already knowing all its appreciations in the media. Yes its holds all of that in it.
+    This movie comes in the category of Andhadhun, Ludo, Chup, Ak vs Ak and many, and I am a huge fan of this category.
+    The best takeaway of the movie was the story. It is so well written and executed. Film proceeds itself in 2 timelines that is before the murder and after it. However the murderer is well predicted before the ending but the climax and ending is so perfect and quite unpredictable.
+    Every cast member (specially Anurag Kashyap) acted truly well in their characters. There were no casting mistakes.
+    Then comes our Vijay bhau, he was the most accurate man for this character and he does characterize it that way. His acting is so pure and natural and that's not for this movie, well for all of his movies.
+    The only flaw I felt was its non-engaging first half. The first half was meant to introduce characters and bring a flow to the storyline but it happened a bit slowly and felt so stretched and detaching.
+    Another thing I missed was a creepious background score for the screen which could be the more invested on.
+    Overall it is a must watch suspense drama movie which must not be missed at any cost.</p>
+</div>
+  
+  <div class="hero-section"></div>
+
+
+  <!-- Sign Up Modal -->
+ 
+  <!--footer section-->
+  <footer class="footer bg-dark text-white">
+    <div class="container py-4">
+      <div class="row">
+        <!-- About Section -->
+        <div class="col-md-4">
+          <h5>About Us</h5>
+          <p>
+            Welcome to CineSlate, Your Go-to Platform for Unbiased Reviews, Trending Movies, and the Latest in Cinema!
+          </p>
+        </div>
+  
+        <!-- Quick Links Section -->
+        <div class="col-md-4">
+          <h5>Quick Links</h5>
+          <ul class="list-unstyled">
+            <li><a href="/" class="text-white text-decoration-none">Home</a></li>
+            <li><a href="/latest" class="text-white text-decoration-none">Latest Movies</a></li>
+          </ul>
+        </div>
+  
+        <!-- Contact Section -->
+        <div class="col-md-4">
+          <h5>Contact Us</h5>
+          <!--Mail link-->
+          <p>
+            <a href="mailto:support@moviemania.com" class="text-white text-decoration-none">
+              <i class="fas fa-envelope"></i> support@CineSlate.com
+            </a>
+          </p>
+          <!--Phone Link-->
+          <p>
+            <a href="tel:+919669543930" class="text-white text-decoration-none">
+              <i class="fas fa-phone"></i> +91 9009200909
+            </a>
+          </p>
+          <!-- Location -->
+        <p>
+          <a href="#" target="_blank" class="text-white text-decoration-none">
+            <i class="fas fa-map-marker-alt"></i> AITR , Indore, India
+          </a>
+        </p>
+        </div>
+      </div>
+  
+      <hr class="bg-light">
+      <div class="text-center">
+        <p class="mb-0">&copy; 2024 CineSlate. All rights reserved.</p>
+        <p class="mb-0">
+          Follow us: 
+          <a href="#" class="text-white text-decoration-none mx-2"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="text-white text-decoration-none mx-2"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="text-white text-decoration-none mx-2"><i class="fab fa-instagram"></i></a>
+        </p>
+      </div>
+    </div>
+  </footer>
+  
+  <script src="script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

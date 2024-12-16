@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Review Page</title>
+  <link rel="icon" href="favicon.png" type="image/png">
+
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #282c34;
+      color: #f5f5f5;
+    }
+    .movie-card1 {
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      background-color: #333;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .movie-card1:hover {
+      transform: scale(1.05);
+    }
+    .movie-card-body1 {
+      padding: 15px;
+      color: #eee;
+    }
+    .movie-title1 {
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #61dafb;
+    }
+    .movie-genre1,
+    .movie-rating1 {
+      color: #bbb;
+      font-size: 0.9em;
+    }
+    .review-content1 {
+      margin-top: 10px;
+      color: #aaa;
+    }
+    .review-buttons1 {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+    }
+    .edit-button1,
+    .delete-button1 {
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.9em;
+      transition: background-color 0.2s;
+    }
+    .edit-button1 {
+      background-color: #28a745;
+      color: white;
+    }
+    .delete-button1 {
+      background-color: #dc3545;
+      color: white;
+    }
+    .edit-button1:hover {
+      background-color: #218838;
+    }
+    .delete-button1:hover {
+      background-color: #c82333;
+    }
+    .movie-card1 img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the image covers the entire area */
+    display: block;    /* Removes extra spaces caused by inline-block default behavior of images */
+}
+.navbar {
+    min-height: 80px; /* Adjust the height value as needed */
+    padding: 15px 10px; /* Optional: Adjust padding for better appearance */
+  }
+  .navbar-brand {
+    font-size: 2rem; /* Optional: Adjust font size for better alignment */
+  }
+  .btn {
+    margin-top: auto; /* Optional: Align buttons vertically */
+    margin-bottom: auto;}
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+      <div>
+        <button class="btn btn-dark dropdown-toggle" type="button" style="margin-left: 25px; margin-bottom: 20px;" id="menuDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          Menu
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="menuDropdown" style="margin-left: 40px;">
+          <li><a class="dropdown-item" href="/profile">Profile</a></li>
+          <li><a class="dropdown-item" href="/popular">Latest Movies</a></li>
+          <li><a class="dropdown-item" href="/myreview">Your Reviews</a></li>
+          <li><a class="dropdown-item" href="/mylist">Your Lists</a></li>
+        </ul>
+      </div>
+      <a class="navbar-brand mx-auto" href="/logindex">
+        CineSlate</a>
+      <div class="d-flex" >
+        <a th:href="@{/profile}"><button class="btn btn-outline-light me-2">Profile</button></a> 
+        <a th:href="@{/logout}"><button class="btn btn-outline-light">Logout</button></a> 
+      </div>
+    </div>
+  </nav>
+<div class="container mt-5">
+  <h1 class="text-center mb-4">My Reviews</h1>
+
+  <div class="row">
+    <div class="col-md-4">
+      <div class="reviews" th:each="review:${reviews}"></div>
+      <div class="movie-card1" id="movie-card-1">
+        <img src="300/INCEPTION-300x300.jpg" alt="Movie Poster">
+        <div class="movie-card-body1">
+          <div class="movie-title1" th:text="${review.description}">Inception</div>
+          <p class="movie-rating1">Rating:</p><p th:text="${review.rating}"></p>
+          <div class="review-content1" id="review-content-1">
+            <p th:text="${review.body}">themes</p>
+          </div>
+          <div class="review-buttons1">
+            <button class="edit-button1" data-toggle="modal" data-target="#reviewModal" onclick="editReview(1)">Edit Review</button>
+            <button class="delete-button1" onclick="deleteReview(1)">Delete Review</button>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="reviewModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="reviewModalLabel">Edit Review</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="modal-movie-id">
+        <textarea class="form-control" id="edit-review-text" rows="5"></textarea>
+        <div class="review-buttons1">
+          <button type="button" class="btn btn-primary" onclick="saveReview()">Done</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    function editReview(movieId) {
+      const reviewContent = $('#review-content-' + movieId + ' p').text();
+      $('#modal-movie-id').val(movieId);
+      $('#edit-review-text').val(reviewContent);
+    }
+  
+    function saveReview() {
+      const movieId = $('#modal-movie-id').val();
+      const newReviewText = $('#edit-review-text').val();
+      $('#review-content-' + movieId + ' p').text(newReviewText);
+      $('#reviewModal').modal('hide');
+    }
+  
+    function deleteReview(movieId) {
+      if (confirm('Are you sure you want to delete this review?')) {
+        // Remove the card
+        $('#movie-card-' + movieId).closest('.col-md-4').remove();
+  
+        // Refresh the grid layout
+        refreshGridLayout();
+      }
+    }
+  
+    function refreshGridLayout() {
+      const container = $('.row');
+      const cards = container.children('.col-md-4');
+      
+      // Detach and reattach to force reflow
+      cards.detach();
+      container.append(cards);
+    }
+  </script>
+  
+  
+</body>
+</html>

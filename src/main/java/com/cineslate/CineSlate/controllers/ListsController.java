@@ -1,7 +1,5 @@
 package com.cineslate.CineSlate.controllers;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,11 +16,7 @@ public class ListsController {
 
     @GetMapping("/lists/{id}")
     public Lists getList(@PathVariable Long id){
-        Optional<Lists> optionalList= listsService.getById(id);
-        if(optionalList.isPresent()){
-            return optionalList.get();
-        }
-        return null;
+        return listsService.getById(id);
     }
 
     @PostMapping("/list/add")
@@ -31,25 +25,15 @@ public class ListsController {
     }
         @PostMapping("/list/edit/{id}")
         public Lists updateLists(@RequestBody Lists list,@PathVariable Long id){
-
-        Optional<Lists> optionalList = listsService.getById(id);
-        if(optionalList.isPresent()){
-            Lists lis = optionalList.get();
+            Lists lis = listsService.getById(id);
             lis.setListName(list.getListName());
-            lis.setUpdatedAt(list.getUpdatedAt());
             return listsService.save(lis);
-        }
-        return null;
     }
 
     @GetMapping("/list/delete/{id}")
     public String deleteList(@PathVariable Long id){
-        Optional<Lists> optionalList= listsService.getById(id);
-        if(optionalList.isPresent()){
-            Lists list= optionalList.get();
+            Lists list= listsService.getById(id);
             listsService.delete(list);
             return "Deletion Successful";
-        }
-        return "List not Found";
     }
 }
