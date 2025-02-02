@@ -1,6 +1,6 @@
 package com.cineslate.CineSlate.apiThings;
 public class ApiRequest {
-    private String apikey="cbb85181-345b-4e99-9d3d-1147b94e6ab7";
+    private String apikey="--";
     private String pin;
     public String getApikey() {
         return apikey;
